@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>INK GOLD | Private Studio</title>
+    
+    <!-- Fontes: Oswald (Impacto) e Roboto Mono (Técnica/Industrial) -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* =========================================
+           CONFIGURAÇÕES MASTER (INK GOLD - INDUSTRIAL)
+           ========================================= */
+        :root {
+            --primary: #CCFF00; /* Verde Limão Neon */
+            --primary-dark: #99CC00;
+            
+            --bg-deep: #050505; /* Preto Absoluto */
+            --bg-panel: #111111; /* Cinza Carbono */
+            
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --text-sidebar: #cccccc;
+            
+            --border-line: 1px solid #333;
+            --border-active: 1px solid var(--primary);
+            
+            --font-display: 'Oswald', sans-serif;
+            --font-tech: 'Roboto Mono', monospace;
+            
+            --sidebar-width: 280px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
+        
+        /* LAYOUT (PC/DESKTOP) */
+        body { 
+            background-color: var(--bg-deep); 
+            color: var(--text-main); 
+            font-family: var(--font-tech);
+            overflow-x: hidden;
+            width: 100%;
+            /* CORREÇÃO: Usar padding-left em vez de grid para layout com sidebar fixa */
+            padding-left: var(--sidebar-width);
+            display: block;
+        }
+
+        /* Textura de Fundo (Noise) */
+        body::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: -1;
+        }
+
+        /* Scrollbar Robusta */
+        body::-webkit-scrollbar { width: 8px; }
+        body::-webkit-scrollbar-track { background: #000; }
+        body::-webkit-scrollbar-thumb { background: #333; border: 1px solid #000; }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        img { width: 100%; display: block; object-fit: cover; }
+        
+        /* Seções */
+        section { padding: 100px 60px; border-bottom: 1px solid #222; position: relative; }
+        
+        .section-header { 
+            margin-bottom: 60px; 
+            display: flex; flex-direction: column; align-items: flex-start;
+            border-left: 5px solid var(--primary); padding-left: 20px;
+        }
+        .section-title { 
+            font-family: var(--font-display); font-size: 4rem; 
+            font-weight: 700; color: #fff; line-height: 0.9; text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 5px;
+        }
+        .section-subtitle {
+            font-family: var(--font-tech); font-size: 0.8rem; color: var(--primary);
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        .text-gold { color: var(--primary); }
+
+        /* =========================================
+           SIDEBAR (ESTRUTURA GOLD - FIXA)
+           ========================================= */
+        .sidebar {
+            background: #080808;
+            height: 100vh; 
+            /* CORREÇÃO: Menu Fixo */
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            padding: 40px 25px; display: flex; flex-direction: column; justify-content: space-between;
+            border-right: 1px solid #222; z-index: 100;
+        }
+        
+        .brand { 
+            font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; line-height: 0.9; 
+            color: #fff; letter-spacing: 1px; margin-bottom: 40px;
+        }
+        .brand span { color: var(--primary); }
+        
+        .nav-menu { display: flex; flex-direction: column; gap: 10px; }
+        
+        .nav-link { 
+            display: flex; align-items: center; justify-content: flex-start; gap: 15px;
+            padding: 12px 15px; border-radius: 4px; 
+            color: #888; border: 1px solid transparent;
+            transition: 0.3s;
+            font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;
+            font-weight: 500; font-family: var(--font-display);
+        }
+        .nav-link:hover, .nav-link.active { 
+            color: var(--primary); background: rgba(204, 255, 0, 0.05); 
+            border-color: rgba(204, 255, 0, 0.2); 
+        }
+        .nav-icon i { font-size: 1.2rem; } 
+        
+        .sidebar-footer { border-top: 1px solid #222; padding-top: 20px; }
+        .socials-side { display: flex; gap: 10px; margin-bottom: 15px; }
+        .socials-side a { 
+            width: 40px; height: 40px; background: #111; 
+            display: flex; align-items: center; justify-content: center; 
+            color: #fff; transition:0.3s; border: 1px solid #333;
+        }
+        .socials-side a:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+
+        /* =========================================
+           HERO SECTION
+           ========================================= */
+        #hero {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?q=80&w=1974&auto=format&fit=crop') center/cover no-repeat;
+            padding: 0 50px; text-align: center;
+        }
+        
+        .hero-content { position: relative; z-index: 2; max-width: 900px; border: 2px solid #fff; padding: 60px 40px; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); }
+        
+        .hero-label { 
+            color: var(--primary); font-family: var(--font-tech); font-size: 0.9rem;
+            text-transform: uppercase; letter-spacing: 4px; display: block; margin-bottom: 20px;
+        }
+        
+        .hero-title { 
+            font-family: var(--font-display); font-size: 6rem; line-height: 0.9; 
+            margin-bottom: 30px; font-weight: 700; text-transform: uppercase; color: #fff;
+        }
+        
+        .btn-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+
+        .btn-gold {
+            padding: 15px 40px; background: var(--primary); color: #000;
+            text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; 
+            display: inline-block; font-size: 1rem; font-weight: 700; font-family: var(--font-display);
+            border: 2px solid var(--primary);
+        }
+        .btn-gold:hover { background: transparent; color: var(--primary); }
+        
+        .btn-outline {
+            padding: 15px 40px; background: transparent; color: #fff; 
+            border: 2px solid #fff;
+            text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; 
+            display: inline-block; font-size: 1rem; font-weight: 700; font-family: var(--font-display);
+        }
+        .btn-outline:hover { background: #fff; color: #000; }
+
+        /* =========================================
+           SOBRE
+           ========================================= */
+        #about { background: var(--bg-panel); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        
+        .about-img img { 
+            width: 100%; height: 500px; filter: grayscale(100%) contrast(1.2); 
+            object-fit: cover; border: 1px solid #333;
+        }
+        
+        .about-text p { 
+            color: #ccc; line-height: 1.8; margin-bottom: 25px; 
+            font-size: 1rem; font-family: var(--font-tech); text-align: justify;
+        }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 40px;
+        }
+        .stat-item {
+            background: #000; padding: 20px; border: 1px solid #333; text-align: center;
+        }
+        .stat-item h3 { 
+            font-family: var(--font-display); font-size: 2.5rem; 
+            color: var(--primary); line-height: 1; margin-bottom: 5px;
+        }
+        .stat-item p { 
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #888;
+        }
+
+        /* =========================================
+           SERVIÇOS
+           ========================================= */
+        #services { background: var(--bg-deep); }
+        .menu-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
+        .menu-item {
+            background: #111; padding: 40px 30px; border: 1px solid #222;
+            transition: 0.3s; cursor: pointer; display: flex; flex-direction: column; align-items: flex-start;
+        }
+        .menu-item:hover { border-color: var(--primary); transform: translateY(-5px); }
+        
+        .menu-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
+        
+        .menu-title { font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 10px; color: #fff; text-transform: uppercase; }
+        .menu-desc { color: #888; font-size: 0.9rem; margin-bottom: 30px; font-family: var(--font-tech); line-height: 1.5; }
+        
+        .menu-price { 
+            margin-top: auto; font-family: var(--font-display); font-size: 2rem; 
+            color: #fff; font-weight: 700; border-top: 1px solid #333; width: 100%; padding-top: 20px;
+        }
+        .menu-price span { font-size: 0.8rem; color: var(--primary); font-weight: 400; vertical-align: middle; margin-right: 5px; }
+
+        /* =========================================
+           GALERIA
+           ========================================= */
+        .grid-gallery { 
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+        }
+        .g-item { 
+            position: relative; overflow: hidden; cursor: pointer; aspect-ratio: 1/1; 
+            background: #000;
+        }
+        .g-item img { 
+            height: 100%; width: 100%; object-fit: cover; transition: 0.4s; 
+            opacity: 0.7; filter: grayscale(100%);
+        }
+        .g-item:hover img { transform: scale(1.1); opacity: 1; filter: grayscale(0%); }
+        
+        .g-overlay {
+            position: absolute; inset: 0; background: rgba(204, 255, 0, 0.9);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: 0.3s;
+        }
+        .g-item:hover .g-overlay { opacity: 1; }
+        .g-overlay i { font-size: 2.5rem; color: #000; }
+
+        /* =========================================
+           FLUTUANTES
+           ========================================= */
+        .notification-stack { position: fixed; top: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 9998; pointer-events: none; }
+        
+        .notify-card { 
+            background: #111; border: 1px solid #333; border-left: 3px solid var(--primary);
+            padding: 15px; display: flex; align-items: center; gap: 15px; 
+            width: 300px; transform: translateX(120%); transition: 0.5s; 
+            pointer-events: auto;
+        }
+        .notify-card.active { transform: translateX(0); }
+        .notify-img { width: 40px; height: 40px; object-fit: cover; filter: grayscale(100%); border-radius: 0; }
+
+        /* Botão Chat */
+        .chat-btn-float { 
+            position: fixed; bottom: 40px; right: 40px; width: 65px; height: 65px; 
+            background: #000; border: 2px solid var(--primary); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 28px; color: var(--primary); cursor: pointer; z-index: 9999; 
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.1); transition: 0.3s; 
+        }
+        .chat-btn-float:hover { transform: scale(1.1); background: var(--primary); color: #000; }
+        
+        /* Janela do Chat */
+        .chat-window { 
+            position: fixed; bottom: 120px; right: 40px; width: 350px; height: 500px; 
+            background: #111; border: 1px solid #333; 
+            display: none; flex-direction: column; overflow: hidden; 
+            box-shadow: 0 20px 50px #000; z-index: 10000; 
+        }
+        .chat-window.open { display: flex; animation: slideUp 0.3s; }
+        
+        .chat-header { 
+            padding: 15px; background: #000; color: #fff; 
+            border-bottom: 1px solid var(--primary); display: flex; justify-content: space-between; align-items: center; 
+            font-family: var(--font-display); text-transform: uppercase; letter-spacing: 1px;
+        }
+        .close-chat-btn { cursor: pointer; color: #888; transition: 0.3s; }
+        .close-chat-btn:hover { color: #fff; }
+
+        .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .chat-footer { padding: 15px; background: #000; border-top: 1px solid #333; display: flex; flex-wrap: wrap; gap: 8px; }
+        
+        .msg { padding: 10px 15px; font-size: 0.85rem; max-width: 85%; }
+        .msg.bot { background: #222; color: #ccc; border-left: 2px solid var(--primary); }
+        .msg.user { background: var(--primary); color: #000; align-self: flex-end; font-weight: 700; }
+        
+        .quick-reply { 
+            background: #222; border: 1px solid #333; color: #aaa; 
+            padding: 8px 12px; font-size: 0.7rem; font-family: var(--font-tech);
+            cursor: pointer; transition: 0.3s; flex-grow: 1; text-align: center; text-transform: uppercase;
+        }
+        .quick-reply:hover { border-color: var(--primary); color: var(--primary); }
+
+        footer { padding: 60px; background: #000; color: #666; text-align: center; border-top: 1px solid #222; margin-bottom: 60px; }
+        .mobile-dock { display: none; }
+        .mobile-header { display: none; }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* =========================================
+           RESPONSIVIDADE (MOBILE OPTIMIZED)
+           ========================================= */
+        @media (max-width: 1024px) {
+            body { display: block; width: 100%; overflow-x: hidden; position: relative; padding-left: 0; }
+            .sidebar { display: none; }
+            
+            /* Header Mobile Fixo */
+            .mobile-header {
+                display: flex; position: fixed; top: 0; left: 0; width: 100%;
+                background: #050505; border-bottom: 1px solid #222; z-index: 10000;
+                padding: 15px 20px; align-items: center; justify-content: center;
+            }
+            .mobile-brand { font-family: var(--font-display); font-size: 1.5rem; color: #fff; letter-spacing: 2px; font-weight: 700; }
+            .mobile-brand span { color: var(--primary); }
+
+            /* MENU MOBILE FIXO EM BAIXO */
+            .mobile-dock { 
+                display: flex; position: fixed; bottom: 0; left: 0; width: 100%; 
+                background: #080808; border-top: 1px solid #222; 
+                z-index: 9990; justify-content: space-around; padding: 12px 10px 25px 10px;
+            }
+            .dock-item { 
+                color: #555; display: flex; flex-direction: column; align-items: center; 
+                font-size: 0.6rem; gap: 4px; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; font-family: var(--font-display);
+                transition: 0.3s;
+            }
+            .dock-item i { font-size: 1.4rem; margin-bottom: 2px; color: #555; }
+            .dock-item span { display: block; }
+            .dock-item.active, .dock-item:hover { color: var(--primary); }
+            .dock-item:hover i { color: var(--primary); }
+            
+            /* Ajustes Gerais */
+            section { padding: 60px 20px; width: 100%; box-sizing: border-box; }
+            .container { padding: 0 15px; width: 100%; }
+            
+            /* Hero Ajustado */
+            #hero { 
+                padding-top: 100px; padding-bottom: 60px; padding-left: 20px; padding-right: 20px;
+                height: auto; min-height: 100vh;
+                background-attachment: scroll; /* Fix para mobile */
+                background-position: center;
+            }
+            
+            .hero-content { border: none; padding: 0; background: transparent; backdrop-filter: none; }
+            .hero-title { font-size: 3.5rem; line-height: 1; }
+            
+            /* Botões Mobile */
+            .btn-container { flex-direction: column; gap: 15px; width: 100%; }
+            .btn-gold, .btn-outline { width: 100%; text-align: center; display: block; }
+
+            /* Sobre Ajustado */
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            /* Correção da Imagem: Proporção Retrato e Preenchimento */
+            .about-img img { 
+                height: auto; 
+                aspect-ratio: 4/5; /* Garante que a foto fique bonita no mobile */
+                width: 100%; 
+            }
+            .about-text h2 { font-size: 2.5rem; }
+            
+            /* Stats Grid no Mobile (Ajustado) */
+            .stats-grid { 
+                grid-template-columns: 1fr 1fr; /* 2 por linha */
+                gap: 0;
+            }
+            .stat-item { 
+                border-right: 1px solid #222;
+                border-bottom: 1px solid #222; 
+                text-align: center;
+            }
+            /* Remove a borda da direita do segundo item de cada linha */
+            .stat-item:nth-child(2n) { border-right: none; }
+            /* Último item ocupa largura total */
+            .stat-item:last-child { grid-column: span 2; border-bottom: none; border-right: none; }
+            
+            /* Serviços Mobile - Cards Limpos */
+            .menu-container { grid-template-columns: 1fr; }
+            .menu-item { 
+                flex-direction: column; align-items: center; text-align: center;
+                padding: 30px 20px; 
+                background: #111; margin-bottom: 15px; border: 1px solid #222;
+            }
+            .menu-item:hover { transform: none; border-color: var(--primary); }
+            .menu-icon { margin-bottom: 15px; }
+            .menu-info { width: 100%; margin-bottom: 20px; }
+            .menu-title { font-size: 1.8rem; }
+            .menu-action { width: 100%; text-align: center; border-top: 1px solid #222; padding-top: 15px; }
+            .menu-price { font-size: 1.8rem; border: none; padding: 0; margin-bottom: 5px; }
+            
+            /* Galeria Ajustada (2 Colunas) */
+            .grid-gallery { grid-template-columns: 1fr 1fr; gap: 5px; }
+
+            /* Notificações e Chat */
+            .notification-stack { top: 70px; left: 0; right: 0; align-items: center; width: 100%; transform: none; padding: 0 10px; }
+            .notify-card { width: 100%; max-width: 350px; transform: translateY(-150%); } 
+            .notify-card.active { transform: translateY(0); }
+            
+            .chat-btn-float { bottom: 90px; right: 20px; } 
+            .chat-window { bottom: 0; right: 0; width: 100%; height: 100%; border-radius: 0; z-index: 10001; }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title { font-size: 3rem; }
+            .section-title { font-size: 2.5rem; }
+            .grid-gallery { grid-template-columns: 1fr; } /* 1 coluna em telas muito pequenas */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="notification-stack" id="notificationStack"></div>
+
+    <!-- MOBILE HEADER -->
+    <div class="mobile-header">
+        <div class="mobile-brand">INK <span>GOLD</span></div>
+    </div>
+
+    <!-- SIDEBAR (PC) -->
+    <aside class="sidebar">
+        <div class="brand">
+            INK<br><span>GOLD</span>
+        </div>
+        <nav class="nav-menu">
+            <a href="#hero" class="nav-link"><div class="nav-icon"><i class="ph ph-house"></i> INÍCIO</div></a>
+            <a href="#about" class="nav-link"><div class="nav-icon"><i class="ph ph-paint-brush"></i> O ESTÚDIO</div></a>
+            <a href="#services" class="nav-link"><div class="nav-icon"><i class="ph ph-lightning"></i> SESSÕES</div></a>
+            <a href="#team" class="nav-link"><div class="nav-icon"><i class="ph ph-users"></i> GUEST SPOT</div></a>
+            <a href="#gallery" class="nav-link"><div class="nav-icon"><i class="ph ph-image"></i> GALERIA</div></a>
+            <a href="#contact" class="nav-link"><div class="nav-icon"><i class="ph ph-map-pin"></i> CONTATO</div></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="socials-side">
+                <a href="#"><i class="ph ph-instagram-logo"></i></a>
+                <a href="#"><i class="ph ph-tiktok-logo"></i></a>
+                <a href="#"><i class="ph ph-whatsapp-logo"></i></a>
+            </div>
+            <p style="font-size: 0.55rem; color: #666; text-transform: uppercase; letter-spacing: 2px;">&copy; 2025 Ink Gold.</p>
+        </div>
+    </aside>
+
+    <main>
+        <!-- HERO -->
+        <section id="hero">
+            <div class="hero-content">
+                <span class="hero-label">Private Tattoo Studio</span>
+                <h1 class="hero-title">Arte Eterna em <br><span class="text-gold">Pele e Tinta.</span></h1>
+                <p style="margin-bottom: 40px; font-size: 1.1rem; color: #bbb; font-weight: 300; max-width: 600px;">Um estúdio privado dedicado ao Blackwork, Realismo e projetos exclusivos. Atendimento apenas com hora marcada.</p>
+                <div class="btn-container">
+                    <a href="https://wa.me/5500000000000" class="btn-outline">Ver Disponibilidade</a>
+                    <button class="btn-gold" onclick="document.getElementById('chatWindow').classList.add('open')">Orçamento Personalizado</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOBRE -->
+        <section id="about">
+            <div class="about-grid">
+                <div class="about-img">
+                    <img src="img/tatto.jpg" alt="Tattoo Artist">
+                </div>
+                <div class="about-text">
+                    <div class="section-header">
+                        <h2 class="section-title">Mestres da <span class="text-gold">Tinta</span></h2>
+                        <span class="section-subtitle">Since 2010</span>
+                    </div>
+                    
+                    <p>O Ink Gold não é um estúdio de rua comum. Somos um coletivo de artistas premiados dedicados a criar obras de arte que duram para sempre. Aqui, não fazemos cópias.</p>
+                    <p>Utilizamos materiais 100% descartáveis e veganos, garantindo segurança máxima e cicatrização perfeita.</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <h3>10+</h3>
+                            <p>Anos de Experiência</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>2k+</h3>
+                            <p>Projetos</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>20</h3>
+                            <p>Prêmios</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVIÇOS -->
+        <section id="services">
+            <div class="section-header" style="text-align:center; align-items:center; border:none; padding:0;">
+                <h2 class="section-title">Sessões <span class="text-gold">VIP</span></h2>
+                <span class="section-subtitle">Investment Guide</span>
+            </div>
+            
+            <div class="menu-container">
+                <a href="#" class="menu-item">
+                    <div class="menu-icon"><i class="ph ph-lightning"></i></div>
+                    <div class="menu-info">
+                        <h3 class="menu-title">Flash Day VIP</h3>
+                        <p class="menu-desc">Artes autorais pré-definidas (até 15cm). Execução rápida.</p>
+                        <div class="menu-price"><span>A partir de</span> R$ 450</div>
+                    </div>
+                </a>
+
+                <a href="#" class="menu-item" style="border-color: var(--primary);">
+                    <div class="menu-icon"><i class="ph ph-skull"></i></div>
+                    <div class="menu-info">
+                        <h3 class="menu-title text-gold">Sessão Fechada</h3>
+                        <p class="menu-desc">Projeto 100% exclusivo. Criação + 6 horas de agulha. Almoço incluso.</p>
+                        <div class="menu-price"><span>Sessão</span> R$ 1.800</div>
+                    </div>
+                </a>
+
+                <a href="#" class="menu-item">
+                    <div class="menu-icon"><i class="ph ph-infinity"></i></div>
+                    <div class="menu-info">
+                        <h3 class="menu-title">Fechamento</h3>
+                        <p class="menu-desc">Braço, Costas ou Perna completa. Pacote com múltiplas sessões mensais.</p>
+                        <div class="menu-price"><span>Total</span> Sob Consulta</div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- GALERIA -->
+        <section id="gallery" style="background: #000;">
+            <div class="section-header" style="border:none; padding:0; margin-bottom:40px;">
+                <h2 class="section-title">Selected <span class="text-gold">Ink</span></h2>
+            </div>
+            <div class="grid-gallery">
+                <a href="https://instagram.com" target="_blank" class="g-item">
+                    <img src="https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=800" alt="Tattoo">
+                    <div class="g-overlay"><i class="ph ph-instagram-logo"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="g-item">
+                    <img src="img/tatto.jpg" alt="Tattoo">
+                    <div class="g-overlay"><i class="ph ph-instagram-logo"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="g-item">
+                    <img src="img/tato.jpg" alt="Tattoo">
+                    <div class="g-overlay"><i class="ph ph-instagram-logo"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="g-item">
+                    <img src="img/tatuagem1.jpg" alt="Tattoo">
+                    <div class="g-overlay"><i class="ph ph-instagram-logo"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="g-item">
+                    <img src="img/realismo.jpg" alt="Tattoo">
+                    <div class="g-overlay"><i class="ph ph-instagram-logo"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="g-item">
+                    <img src="img/fineline.jpg" alt="Tattoo">
+                    <div class="g-overlay"><i class="ph ph-instagram-logo"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="g-item">
+                    <img src="img/piercing.jpg" alt="Tattoo">
+                    <div class="g-overlay"><i class="ph ph-instagram-logo"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="g-item">
+                    <img src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?q=80&w=1974&auto=format&fit=crop" alt="Tattoo">
+                    <div class="g-overlay"><i class="ph ph-instagram-logo"></i></div>
+                </a>
+            </div>
+        </section>
+
+        <footer id="contact">
+            <div style="font-family: var(--font-display); font-size: 2.5rem; color: #fff; margin-bottom: 20px;">INK GOLD</div>
+            <p>Rua Augusta, 1500 - SP | (11) 99999-9999</p>
+            <p style="opacity:0.5; margin-top:20px; font-size: 0.75rem; letter-spacing: 1px;">&copy; 2025 Ink Gold Studio.</p>
+        </footer>
+    </main>
+
+    <!-- MOBILE DOCK -->
+    <div class="mobile-dock">
+        <a href="#hero" class="dock-item"><i class="ph ph-house-line"></i><span>Início</span></a>
+        <a href="#services" class="dock-item"><i class="ph ph-currency-dollar"></i><span>Valores</span></a>
+        <a href="https://wa.me/5500000000000" class="dock-item"><i class="ph-fill ph-whatsapp-logo" style="color:var(--primary); font-size:2.2rem; margin-top:-20px; filter: drop-shadow(0 0 10px rgba(204, 255, 0, 0.4));"></i></a>
+        <a href="#gallery" class="dock-item"><i class="ph ph-image-square"></i><span>Fotos</span></a>
+        <a href="#contact" class="dock-item"><i class="ph ph-map-pin"></i><span>Local</span></a>
+    </div>
+
+    <!-- CHATBOT -->
+    <div class="chat-btn-float" onclick="document.getElementById('chatWindow').classList.add('open')">
+        <div style="position:absolute; top:0; right:0; width:12px; height:12px; background:#CCFF00; border-radius:50%; border:2px solid #000;"></div>
+        <i class="ph ph-chat-circle-dots"></i>
+    </div>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span style="font-weight:400; font-family:var(--font-display); letter-spacing:1px;">Concierge Ink</span>
+            <div class="close-chat-btn" onclick="document.getElementById('chatWindow').classList.remove('open')">
+                <i class="ph ph-x"></i>
+            </div>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="msg bot">Bem-vindo ao Ink Gold. Deseja orçar sua nova tatuagem?</div>
+        </div>
+        <div class="chat-footer" id="chatOptions"></div>
+    </div>
+
+    <script>
+        // 1. SCROLL SPY
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(sec => {
+                if (pageYOffset >= (sec.offsetTop - sec.clientHeight / 3)) current = sec.getAttribute('id');
+            });
+            navLinks.forEach(li => {
+                li.classList.remove('active');
+                if (li.getAttribute('href').includes(current)) li.classList.add('active');
+            });
+        });
+
+        // 2. NOTIFICAÇÕES (Contexto Tattoo)
+        const acts = [
+            {t:"Agendou Fechamento", i:"https://randomuser.me/api/portraits/women/44.jpg"}, 
+            {t:"Fez Flash Tattoo", i:"https://randomuser.me/api/portraits/women/65.jpg"},
+            {t:"Solicitou Orçamento", i:"https://randomuser.me/api/portraits/men/32.jpg"}, 
+            {t:"Comprou Gift Card", i:"https://randomuser.me/api/portraits/women/85.jpg"}
+        ];
+        const names = ['Fernanda', 'Carlos', 'Beatriz', 'Roberto', 'Juliana'];
+
+        function notify() {
+            const a = acts[Math.floor(Math.random()*acts.length)];
+            const n = names[Math.floor(Math.random()*names.length)];
+            const card = document.createElement('div');
+            card.className = 'notify-card';
+            card.innerHTML = `<img src="${a.i}" class="notify-img"><div><h6 style="font-size:0.85rem; color:#fff; margin-bottom:2px; font-family:var(--font-tech);">${n} ${a.t}</h6><p style="font-size:0.65rem; color:var(--primary); font-weight:700;">AGORA MESMO</p></div>`;
+            document.getElementById('notificationStack').appendChild(card);
+            setTimeout(()=>card.classList.add('active'),100);
+            setTimeout(()=>{card.classList.remove('active'); setTimeout(()=>card.remove(),500)}, 5000);
+        }
+        setInterval(notify, 12000); 
+
+        // 3. CHATBOT
+        const opts = [
+            {l:"📅 Ver Agenda", r:"Abrindo calendário..."}, 
+            {l:"💰 Pedir Orçamento", r:"Envie sua ideia e tamanho aproximado."}, 
+            {l:"📸 Ver Portfólio", r:"Confira nossa galeria acima."},
+            {l:"📞 Falar com Tatuador", r:"Transferindo..."}
+        ];
+        const cOpts = document.getElementById('chatOptions');
+        const cBody = document.getElementById('chatBody');
+
+        opts.forEach(o => {
+            const btn = document.createElement('button');
+            btn.className='quick-reply';
+            btn.innerText=o.l;
+            btn.onclick = () => {
+                cBody.innerHTML += `<div class="msg user">${o.l}</div>`;
+                cOpts.style.display = 'none';
+                setTimeout(() => {
+                    cBody.innerHTML += `<div class="msg bot">${o.r}</div>`;
+                    cBody.scrollTop = cBody.scrollHeight;
+                    cOpts.style.display = 'flex';
+                    if(o.l.includes("Agenda")) setTimeout(()=>window.open('https://wa.me/5500000000000'), 1500);
+                }, 800);
+            };
+            cOpts.appendChild(btn);
+        });
+    </script>
+</body>
+</html>

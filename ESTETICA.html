@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LOTUS GOLD | Luxury Spa</title>
+    
+    <!-- Fontes: Playfair Display (Luxo) e Lato (Leveza) -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* =========================================
+           CONFIGURAÇÕES MASTER (SPA GOLD)
+           ========================================= */
+        :root {
+            --primary: #d4af37; /* Dourado Clássico */
+            --primary-soft: #f3e5ab; /* Champagne */
+            --primary-light: #fff8e1; /* Fundo Dourado Muito Claro */
+            
+            --dark-brown: #2c2520; /* Marrom Café (Sidebar) */
+            --warm-grey: #4a403a; /* Texto Escuro */
+            
+            --bg-body: #fdfcf8; /* Off-White Quente */
+            --bg-panel: #fff;
+            
+            --text-main: #4a403a;
+            --text-light: #8c8580;
+            --text-sidebar: #f2ece4; /* Creme Claro para contraste no marrom */
+            
+            --border-glass: rgba(255, 255, 255, 0.08);
+            
+            --font-body: 'Lato', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+            
+            --sidebar-width: 280px;
+            --shadow-soft: 0 10px 40px -10px rgba(212, 175, 55, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+        
+        /* LAYOUT (PC/DESKTOP) */
+        body { 
+            background-color: var(--bg-body); 
+            color: var(--text-main); 
+            font-family: var(--font-body); 
+            overflow-x: hidden;
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr;
+        }
+
+        /* Scrollbar Delicada */
+        body::-webkit-scrollbar { width: 6px; }
+        body::-webkit-scrollbar-track { background: #fdfcf8; }
+        body::-webkit-scrollbar-thumb { background: #d4a373; border-radius: 10px; }
+
+        a { text-decoration: none; color: inherit; transition: 0.4s; }
+        img { width: 100%; display: block; object-fit: cover; }
+        
+        /* Seções */
+        section { padding: 100px 80px; border-bottom: 1px solid rgba(0,0,0,0.03); position: relative; }
+        .section-title { font-family: var(--font-serif); font-size: 3rem; margin-bottom: 50px; font-weight: 400; color: var(--dark-brown); line-height: 1.2; font-style: italic; }
+        .text-gold { color: var(--primary); }
+
+        /* =========================================
+           SIDEBAR (Desktop)
+           ========================================= */
+        .sidebar {
+            background: var(--dark-brown);
+            height: 100vh; position: sticky; top: 0;
+            padding: 50px 30px; display: flex; flex-direction: column; justify-content: space-between;
+            border-right: 1px solid rgba(255,255,255,0.05); z-index: 100;
+            color: #fff;
+            box-shadow: 5px 0 30px rgba(44, 37, 32, 0.2);
+        }
+        
+        /* Brand com Ícone */
+        .brand { 
+            font-family: var(--font-serif); font-size: 2.2rem; font-weight: 400; line-height: 1; 
+            border-left: 3px solid var(--primary); padding-left: 20px; letter-spacing: 2px;
+            display: flex; flex-direction: column; align-items: flex-start;
+        }
+        .brand i { color: var(--primary); font-size: 1.8rem; margin-bottom: 10px; } /* Ícone da marca */
+        .brand span { font-family: var(--font-body); font-size: 0.6rem; letter-spacing: 4px; display: block; margin-top: 8px; color: var(--primary); text-transform: uppercase; }
+        
+        .nav-menu { display: flex; flex-direction: column; gap: 8px; }
+        
+        /* Link da navegação com cor ajustada */
+        .nav-link { 
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 15px; border-radius: 4px; 
+            color: var(--text-sidebar); /* Cor clara para leitura */
+            transition: 0.3s;
+            font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase;
+            font-weight: 400;
+        }
+        .nav-link:hover, .nav-link.active { color: var(--primary); background: rgba(255,255,255,0.05); padding-left: 20px; }
+        .nav-icon { display: flex; align-items: center; gap: 15px; }
+        .nav-icon i { font-size: 1.2rem; } /* Ícone do menu */
+        
+        .sidebar-footer { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 25px; }
+        .socials-side { display: flex; gap: 15px; margin-bottom: 20px; }
+        .socials-side a { width: 35px; height: 35px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ccc; transition:0.3s; }
+        .socials-side a:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* =========================================
+           HERO SECTION (AJUSTE DE CONTRASTE)
+           ========================================= */
+        #hero {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat fixed;
+            padding: 0 50px;
+        }
+        /* Overlay mais escuro para garantir leitura do texto branco */
+        #hero::before { content: ''; position: absolute; inset: 0; background: rgba(44, 37, 32, 0.65); z-index: 1; }
+        
+        .hero-content { position: relative; z-index: 2; max-width: 800px; text-align: center; color: #fff; }
+        
+        /* Hero Label com fundo para contraste do dourado */
+        .hero-label { 
+            background: rgba(0,0,0,0.4); border: 1px solid var(--primary); color: var(--primary); 
+            padding: 8px 24px; font-size: 0.8rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 4px; display: inline-block; margin-bottom: 30px; 
+            backdrop-filter: blur(5px);
+        }
+        
+        .hero-title { font-family: var(--font-serif); font-size: 5rem; line-height: 1.1; margin-bottom: 30px; font-weight: 400; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .hero-title span { font-style: italic; color: var(--primary-soft); } /* Champagne claro para ler melhor no escuro */
+        
+        .hero-desc {
+            font-size: 1.2rem; color: #f0f0f0; margin-bottom: 40px; font-weight: 300; line-height: 1.6;
+        }
+        
+        .btn-gold {
+            padding: 18px 50px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.4);
+            text-transform: uppercase; letter-spacing: 3px; cursor: pointer; transition: 0.4s; 
+            position: relative; display: inline-block; font-size: 0.8rem; backdrop-filter: blur(5px);
+        }
+        .btn-gold:hover { background: #fff; color: var(--dark-brown); border-color: #fff; }
+        
+        .btn-outline {
+            padding: 18px 50px; background: var(--primary); color: var(--dark-brown); border: 1px solid var(--primary);
+            text-transform: uppercase; letter-spacing: 3px; cursor: pointer; transition: 0.4s; display: inline-block; font-size: 0.8rem; font-weight: 600;
+        }
+        .btn-outline:hover { background: transparent; color: #fff; border-color: #fff; }
+
+        /* =========================================
+           SOBRE
+           ========================================= */
+        #about { background: var(--bg-body); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        
+        .about-img { position: relative; }
+        /* Imagem em arco (Arch shape) */
+        .about-img img { border-radius: 200px 200px 0 0; box-shadow: 10px 10px 0 var(--primary-soft); width: 100%; height: 600px; }
+        
+        .about-text p { color: var(--text-light); line-height: 1.9; margin-bottom: 25px; font-size: 1.05rem; font-weight: 300; }
+        
+        .features-list { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; }
+        .feature-item { display: flex; align-items: center; gap: 12px; color: var(--dark-brown); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        .feature-item i { color: var(--primary); font-size: 1.5rem; }
+
+        /* =========================================
+           SERVIÇOS (MENU SPA)
+           ========================================= */
+        #services { background: #fff; }
+        .menu-container { display: flex; flex-direction: column; gap: 30px; max-width: 900px; margin: 0 auto; }
+        
+        .menu-item {
+            display: flex; align-items: center; padding-bottom: 30px; 
+            border-bottom: 1px dashed #e0d8d0; transition: 0.4s; cursor: pointer;
+        }
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item:hover .menu-title { color: var(--primary); }
+        
+        .menu-info { flex: 1; }
+        .menu-title { font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 8px; color: var(--dark-brown); font-weight: 400; transition: 0.3s; }
+        .menu-desc { color: var(--text-light); font-size: 0.95rem; font-style: italic; }
+        
+        .menu-action { display: flex; align-items: center; gap: 25px; }
+        .menu-price { font-family: var(--font-serif); font-size: 1.5rem; color: var(--primary); white-space: nowrap; font-style: italic; }
+        .book-btn { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--dark-brown); padding-bottom: 2px; }
+
+        /* =========================================
+           EQUIPE & GALERIA
+           ========================================= */
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .team-card { text-align: center; cursor: pointer; }
+        
+        /* Wrapper para a imagem da equipe para conter o overlay */
+        .team-img-wrapper { position: relative; border-radius: 200px 200px 0 0; overflow: hidden; margin-bottom: 20px; }
+        
+        .team-img { height: 400px; width: 100%; object-fit: cover; transition: 0.5s; filter: sepia(20%); display: block; }
+        
+        .team-card:hover .team-img { filter: sepia(0%); transform: scale(1.05); }
+        .team-card:hover .overlay-gallery { opacity: 1; } /* Ativa o overlay no hover do card */
+
+        .team-info h4 { font-family: var(--font-serif); font-size: 1.4rem; color: var(--dark-brown); font-weight: 400; }
+        .team-info p { color: var(--primary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
+        
+        .masonry-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .m-item { position: relative; overflow: hidden; cursor: pointer; height: 350px; }
+        .m-item img { height: 100%; width: 100%; object-fit: cover; transition: 0.7s; }
+        .m-item:hover img { transform: scale(1.05); }
+        .m-item:nth-child(2) { margin-top: 50px; } /* Desnível Artístico */
+
+        /* Overlay do Instagram */
+        .overlay-gallery {
+            position: absolute; inset: 0;
+            background: rgba(44, 37, 32, 0.6);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: 0.4s;
+        }
+        .m-item:hover .overlay-gallery { opacity: 1; }
+        .overlay-gallery i { color: #fff; font-size: 3rem; font-weight: 100; }
+
+        /* =========================================
+           FLUTUANTES (GOLD FEATURES)
+           ========================================= */
+        .notification-stack { position: fixed; top: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 9998; pointer-events: none; }
+        
+        .notify-card { 
+            background: #fff; border-right: 3px solid var(--primary); 
+            padding: 15px 20px; border-radius: 0; display: flex; align-items: center; gap: 15px; 
+            width: 300px; transform: translateX(120%); transition: 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); 
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05); pointer-events: auto; 
+        }
+        .notify-card.active { transform: translateX(0); }
+        .notify-img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+
+        /* Botão Chat Premium */
+        .chat-btn-float { 
+            position: fixed; bottom: 40px; right: 40px; width: 60px; height: 60px; 
+            background: #fff; border: 1px solid var(--primary); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 28px; color: var(--primary); cursor: pointer; z-index: 9999; 
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2); transition: 0.3s; 
+        }
+        .chat-btn-float:hover { transform: scale(1.1); background: var(--primary); color: #fff; }
+        
+        /* Janela do Chat */
+        .chat-window { 
+            position: fixed; bottom: 120px; right: 40px; width: 360px; height: 550px; 
+            background: #fdfcf8; border: 1px solid #e0d8d0; border-radius: 8px; 
+            display: none; flex-direction: column; overflow: hidden; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1); z-index: 10000; /* Z-index alto para ficar acima de tudo */
+        }
+        .chat-window.open { display: flex; animation: slideUp 0.4s ease; }
+        
+        .chat-header { 
+            padding: 15px 20px; background: #fff; color: var(--dark-brown); 
+            border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; 
+            font-family: var(--font-serif); 
+        }
+        /* Botão de fechar destacado */
+        .close-chat-btn {
+            font-size: 1.5rem; color: var(--text-light); cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+            width: 30px; height: 30px; border-radius: 50%;
+        }
+        .close-chat-btn:hover { background: #eee; color: var(--dark-brown); }
+
+        .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .chat-footer { padding: 15px; background: #fff; border-top: 1px solid #eee; display: flex; flex-wrap: wrap; gap: 8px; }
+        
+        .msg { padding: 12px 18px; font-size: 0.9rem; max-width: 85%; line-height: 1.5; }
+        .msg.bot { background: #fff; color: var(--text-main); border: 1px solid #eee; border-radius: 0 12px 12px 12px; }
+        .msg.user { background: var(--primary); color: #fff; align-self: flex-end; border-radius: 12px 0 12px 12px; }
+        
+        .quick-reply { 
+            background: transparent; border: 1px solid #ccc; color: var(--text-light); 
+            padding: 6px 14px; border-radius: 20px; font-size: 0.7rem; 
+            cursor: pointer; transition: 0.3s; flex-grow: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .quick-reply:hover { border-color: var(--primary); color: var(--primary); }
+
+        footer { padding: 80px; background: #fff; color: var(--text-light); text-align: center; border-top: 1px solid #f0f0f0; }
+        .mobile-dock { display: none; }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* =========================================
+           RESPONSIVIDADE (MOBILE OPTIMIZED)
+           ========================================= */
+        @media (max-width: 1024px) {
+            body { display: block; width: 100%; }
+            .sidebar { display: none; }
+            
+            .mobile-dock { 
+                display: flex; position: fixed; bottom: 0; left: 0; width: 100%; 
+                background: #fff; border-top: 1px solid #eee; 
+                z-index: 9990; justify-content: space-around; padding: 12px 10px 30px 10px; 
+            }
+            /* CORRIGIDO: Cor mais escura para contraste no fundo branco */
+            .dock-item { color: #666; display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; gap: 5px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+            .dock-item i { font-size: 1.4rem; }
+            .dock-item.active { color: var(--primary); }
+            
+            section { padding: 60px 20px; width: 100%; }
+            #hero { text-align: center; padding: 0 20px; background-attachment: scroll; }
+            .hero-title { font-size: 3rem; }
+            
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .about-img img { height: 350px; width: 100%; border-radius: 150px 150px 0 0; }
+            
+            /* Masonry transformado em grid simples no mobile */
+            .masonry-grid { display: grid; grid-template-columns: 1fr; grid-template-rows: auto; gap: 20px; }
+            .m-item { height: 300px; width: 100%; margin-top: 0 !important; grid-column: auto !important; grid-row: auto !important; }
+
+            .notification-stack { top: 20px; left: 0; right: 0; align-items: center; width: 100%; transform: none; }
+            .notify-card { width: 90%; transform: translateY(-150%); } 
+            .notify-card.active { transform: translateY(0); }
+            
+            .chat-btn-float { bottom: 100px; right: 20px; }
+            
+            /* Chat Fullscreen no Mobile */
+            .chat-window { bottom: 0; right: 0; width: 100%; height: 100%; border-radius: 0; z-index: 10000; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero-label { letter-spacing: 2px; font-size: 0.7rem; }
+            
+            /* Menu Services Mobile Stack */
+            .menu-item { flex-direction: column; text-align: center; padding: 25px 20px; }
+            .menu-icon { margin-right: 0; margin-bottom: 15px; }
+            .menu-action { width: 100%; justify-content: space-between; margin-top: 20px; border-top: 1px dashed #eee; padding-top: 15px; }
+            
+            .team-grid { grid-template-columns: 1fr; }
+            .features-list { grid-template-columns: 1fr; }
+            
+            /* Botões Hero Mobile */
+            .hero-content div { flex-direction: column; gap: 15px; }
+            .btn-gold, .btn-outline { width: 100%; }
+            
+            footer { padding: 50px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="notification-stack" id="notificationStack"></div>
+
+    <!-- SIDEBAR (PC) -->
+    <aside class="sidebar">
+        <div class="brand">
+            <i class="ph-fill ph-lotus"></i>
+            LOTUS<br><span>GOLD</span>
+        </div>
+        <nav class="nav-menu">
+            <a href="#hero" class="nav-link"><div class="nav-icon"><i class="ph ph-house-line"></i> Início</div><i class="ph ph-caret-right arrow-indicator"></i></a>
+            <a href="#about" class="nav-link"><div class="nav-icon"><i class="ph ph-sparkle"></i> O Santuário</div><i class="ph ph-caret-right arrow-indicator"></i></a>
+            <a href="#services" class="nav-link"><div class="nav-icon"><i class="ph ph-flower-lotus"></i> Rituais</div><i class="ph ph-caret-right arrow-indicator"></i></a>
+            <a href="#team" class="nav-link"><div class="nav-icon"><i class="ph ph-users"></i> Especialistas</div><i class="ph ph-caret-right arrow-indicator"></i></a>
+            <a href="#gallery" class="nav-link"><div class="nav-icon"><i class="ph ph-image"></i> Espaço</div><i class="ph ph-caret-right arrow-indicator"></i></a>
+            <a href="#contact" class="nav-link"><div class="nav-icon"><i class="ph ph-map-pin"></i> Contato</div><i class="ph ph-caret-right arrow-indicator"></i></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="socials-side">
+                <a href="#"><i class="ph ph-instagram-logo"></i></a>
+                <a href="#"><i class="ph ph-pinterest-logo"></i></a>
+                <a href="#"><i class="ph ph-whatsapp-logo"></i></a>
+            </div>
+            <p style="font-size: 0.65rem; color: #888; text-transform: uppercase; letter-spacing: 2px;">&copy; 2025 Lotus Spa.</p>
+        </div>
+    </aside>
+
+    <main>
+        <!-- HERO -->
+        <section id="hero">
+            <div class="hero-content">
+                <span class="hero-label">Experiência Sensorial</span>
+                <h1 class="hero-title">O Ápice do <br><span>Bem-Estar.</span></h1>
+                <p style="margin-bottom: 40px; font-size: 1.1rem; opacity: 0.9; font-weight: 300;">Harmonia perfeita entre técnicas milenares e a ciência estética moderna.</p>
+                <div style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center;">
+                    <a href="https://wa.me/5500000000000" class="btn-outline">Agendar Ritual</a>
+                    <button class="btn-gold" onclick="document.getElementById('chatWindow').classList.add('open')">Concierge Virtual</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOBRE -->
+        <section id="about">
+            <div class="about-grid">
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=2070&auto=format&fit=crop" alt="Spa">
+                </div>
+                <div class="about-text">
+                    <h2 class="section-title">Luxo <span class="text-gold">Orgânico</span></h2>
+                    <p>O Lotus Gold não é apenas um spa, é um refúgio urbano projetado para desconectar você do caos. Cada detalhe, do aroma de chá branco à temperatura dos lençóis egípcios, foi pensado para o seu relaxamento profundo.</p>
+                    <p>Nossos tratamentos utilizam exclusivamente produtos orgânicos certificados e tecnologias não-invasivas de última geração.</p>
+                    
+                    <div class="features-list">
+                        <div class="feature-item"><i class="ph-fill ph-plant"></i> Produtos Veganos</div>
+                        <div class="feature-item"><i class="ph-fill ph-sparkle"></i> Salas Privativas</div>
+                        <div class="feature-item"><i class="ph-fill ph-drop"></i> Óleos Essenciais</div>
+                        <div class="feature-item"><i class="ph-fill ph-coffee"></i> Chás Importados</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVIÇOS -->
+        <section id="services">
+            <h2 class="section-title" style="text-align: center;">Menu <span class="text-gold">Signature</span></h2>
+            <div class="menu-container">
+                
+                <a href="#" class="menu-item">
+                    <div class="menu-info">
+                        <h3 class="menu-title">Protocolo Gold Facial</h3>
+                        <p class="menu-desc">Limpeza profunda, peeling de diamante e máscara de ouro 24k.</p>
+                    </div>
+                    <div class="menu-action">
+                        <span class="menu-price">R$ 380</span>
+                        <div class="book-btn">Reservar</div>
+                    </div>
+                </a>
+
+                <a href="#" class="menu-item">
+                    <div class="menu-info">
+                        <h3 class="menu-title">Massagem Four Hands</h3>
+                        <p class="menu-desc">Sincronia perfeita. Duas terapeutas trabalhando simultaneamente para relaxamento total.</p>
+                    </div>
+                    <div class="menu-action">
+                        <span class="menu-price">R$ 450</span>
+                        <div class="book-btn">Reservar</div>
+                    </div>
+                </a>
+
+                <a href="#" class="menu-item">
+                    <div class="menu-info">
+                        <h3 class="menu-title text-gold">Day Spa Queen</h3>
+                        <p class="menu-desc">5 horas de imersão. Inclui massagem, facial, banho de imersão e almoço leve.</p>
+                    </div>
+                    <div class="menu-action">
+                        <span class="menu-price text-gold">R$ 1.200</span>
+                        <div class="book-btn" style="border-color: var(--primary);">Reservar</div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- EQUIPE -->
+        <section id="team" style="background: var(--bg-body);">
+            <h2 class="section-title" style="text-align: center;">Nossas <span class="text-gold">Terapeutas</span></h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500" class="team-img" alt="Clara Mendes">
+                        <div class="overlay-gallery"><i class="ph-thin ph-instagram-logo"></i></div>
+                    </div>
+                    <div class="team-info"><h4>Clara Mendes</h4><p>Dermatofuncional</p></div>
+                </div>
+                <div class="team-card">
+                    <div class="team-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=500" class="team-img" alt="Sofia Alencar">
+                        <div class="overlay-gallery"><i class="ph-thin ph-instagram-logo"></i></div>
+                    </div>
+                    <div class="team-info"><h4>Sofia Alencar</h4><p>Massoterapeuta</p></div>
+                </div>
+                <div class="team-card">
+                    <div class="team-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=500" class="team-img" alt="Marina Luz">
+                        <div class="overlay-gallery"><i class="ph-thin ph-instagram-logo"></i></div>
+                    </div>
+                    <div class="team-info"><h4>Marina Luz</h4><p>Esteticista Facial</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALERIA -->
+        <section id="gallery" style="background: #fff;">
+            <h2 class="section-title" style="text-align: center;">O <span class="text-gold">Santuário</span></h2>
+            <div class="masonry-grid">
+                <a href="https://instagram.com" target="_blank" class="m-item">
+                    <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=800" alt="Sala Massagem">
+                    <div class="overlay-gallery"><i class="ph-thin ph-instagram-logo"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="m-item">
+                    <img src="https://images.unsplash.com/photo-1596178065887-1198b6148b2b?w=500" alt="Produtos">
+                    <div class="overlay-gallery"><i class="ph-thin ph-instagram-logo"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="m-item">
+                    <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=500" alt="Detalhes">
+                    <div class="overlay-gallery"><i class="ph-thin ph-instagram-logo"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="m-item">
+                    <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=500" alt="Facial">
+                    <div class="overlay-gallery"><i class="ph-thin ph-instagram-logo"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="m-item">
+                    <img src="https://images.unsplash.com/photo-1552693673-1bf958298935?w=500" alt="Banheira">
+                    <div class="overlay-gallery"><i class="ph-thin ph-instagram-logo"></i></div>
+                </a>
+            </div>
+        </section>
+
+        <footer id="contact">
+            <div style="font-family: var(--font-serif); font-size: 2.5rem; color: var(--dark-brown); margin-bottom: 20px; font-style: italic;">LOTUS</div>
+            <p>Rua das Acácias, 400 - Jardins, SP | (11) 98888-7777</p>
+            <p style="opacity:0.5; margin-top:20px; font-size: 0.75rem; letter-spacing: 1px;">&copy; 2025 Lotus Spa Gold.</p>
+        </footer>
+    </main>
+
+    <!-- MOBILE DOCK -->
+    <div class="mobile-dock">
+        <a href="#hero" class="dock-item"><i class="ph ph-house-line"></i><span>Início</span></a>
+        <a href="#services" class="dock-item"><i class="ph ph-sparkle"></i><span>Menu</span></a>
+        <a href="https://wa.me/5500000000000" class="dock-item"><i class="ph-fill ph-whatsapp-logo" style="color:var(--primary); font-size:2.2rem; margin-top:-20px; filter: drop-shadow(0 5px 10px rgba(212, 163, 115, 0.4));"></i></a>
+        <a href="#gallery" class="dock-item"><i class="ph ph-image-square"></i><span>Fotos</span></a>
+        <a href="#team" class="dock-item"><i class="ph ph-users"></i><span>Equipe</span></a>
+    </div>
+
+    <!-- CHATBOT -->
+    <div class="chat-btn-float" onclick="document.getElementById('chatWindow').classList.add('open')">
+        <div style="position:absolute; top:0; right:0; width:12px; height:12px; background:#10b981; border-radius:50%; border:2px solid #fff;"></div>
+        <i class="ph ph-chat-circle-dots"></i>
+    </div>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span style="font-weight:400; font-family:var(--font-serif); font-style:italic;">Concierge Lotus</span>
+            <div class="close-chat-btn" onclick="document.getElementById('chatWindow').classList.remove('open')">
+                <i class="ph ph-x"></i>
+            </div>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="msg bot">Bem-vindo ao Lotus Spa. Sou sua assistente de bem-estar. Deseja conhecer nossos rituais?</div>
+        </div>
+        <div class="chat-footer" id="chatOptions"></div>
+    </div>
+
+    <script>
+        // 1. SCROLL SPY
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(sec => {
+                if (pageYOffset >= (sec.offsetTop - sec.clientHeight / 3)) current = sec.getAttribute('id');
+            });
+            navLinks.forEach(li => {
+                li.classList.remove('active');
+                if (li.getAttribute('href').includes(current)) li.classList.add('active');
+            });
+        });
+
+        // 2. NOTIFICAÇÕES (Contexto Spa)
+        const acts = [
+            {t:"Reservou Day Spa", i:"https://randomuser.me/api/portraits/women/44.jpg"}, 
+            {t:"Iniciou Massagem", i:"https://randomuser.me/api/portraits/women/65.jpg"},
+            {t:"Comprou Gift Card", i:"https://randomuser.me/api/portraits/men/32.jpg"}, 
+            {t:"Agendou Facial", i:"https://randomuser.me/api/portraits/women/85.jpg"},
+            {t:"Avaliou 5 Estrelas", i:"https://randomuser.me/api/portraits/women/22.jpg"}
+        ];
+        const names = ['Fernanda', 'Carla', 'Beatriz', 'Renata', 'Juliana', 'Patrícia'];
+
+        function notify() {
+            const a = acts[Math.floor(Math.random()*acts.length)];
+            const n = names[Math.floor(Math.random()*names.length)];
+            const card = document.createElement('div');
+            card.className = 'notify-card';
+            card.innerHTML = `<img src="${a.i}" class="notify-img"><div><h6 style="font-size:0.85rem; color:var(--dark-brown); margin-bottom:2px;">${n} ${a.t}</h6><p style="font-size:0.65rem; color:var(--primary); font-weight:700;">CONFIRMADO AGORA</p></div>`;
+            document.getElementById('notificationStack').appendChild(card);
+            setTimeout(()=>card.classList.add('active'),100);
+            setTimeout(()=>{card.classList.remove('active'); setTimeout(()=>card.remove(),500)}, 5000);
+        }
+        setInterval(notify, 9000); 
+
+        // 3. CHATBOT (Opções Spa)
+        const opts = [
+            {l:"📅 Agendar", r:"Redirecionando para a agenda..."}, 
+            {l:"📍 Localização", r:"Estamos na Rua das Acácias, 400."},
+            {l:"💰 Menu de Preços", r:"Massagens a partir de R$ 150."}, 
+            {l:"🎁 Gift Card", r:"O presente perfeito. Válido por 1 ano."},
+            {l:"📞 Falar com Recepção", r:"Chamando..."}
+        ];
+        const cOpts = document.getElementById('chatOptions');
+        const cBody = document.getElementById('chatBody');
+
+        opts.forEach(o => {
+            const b = document.createElement('button');
+            b.className='quick-reply';
+            b.innerText=o.l;
+            b.onclick = () => {
+                cBody.innerHTML += `<div class="msg user">${o.l}</div>`;
+                cOpts.style.display = 'none';
+                setTimeout(() => {
+                    cBody.innerHTML += `<div class="msg bot">${o.r}</div>`;
+                    cBody.scrollTop = cBody.scrollHeight;
+                    cOpts.style.display = 'flex';
+                    if(o.l.includes("Agendar")) setTimeout(()=>window.open('https://wa.me/5500000000000'), 1500);
+                }, 800);
+            };
+            cOpts.appendChild(b);
+        });
+    </script>
+</body>
+</html>

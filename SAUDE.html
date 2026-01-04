@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VITALITY GOLD | Concierge Medicine</title>
+    
+    <!-- Fontes: Space Grotesk (Modernidade) e Playfair Display (Sofisticação) -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* =========================================
+           CONFIGURAÇÕES MASTER (HEALTH GOLD)
+           ========================================= */
+        :root {
+            --primary: #c5a059; /* Dourado Nobre */
+            --primary-gradient: linear-gradient(135deg, #c5a059 0%, #e6c683 50%, #9f7d3d 100%);
+            
+            --navy-deep: #0f172a; /* Azul Marinho Profundo (Sidebar) */
+            --navy-light: #1e293b;
+            
+            --bg-body: #ffffff; /* Fundo Claro (Higiene/Luxo) */
+            --bg-panel: #f8fafc; /* Cinza Gelo */
+            
+            --text-main: #334155;
+            --text-light: #94a3b8;
+            
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --border-light: rgba(0, 0, 0, 0.05);
+            
+            --font-tech: 'Space Grotesk', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+            
+            --sidebar-width: 280px;
+            --shadow-card: 0 10px 30px -10px rgba(15, 23, 42, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        
+        /* LAYOUT (PC/DESKTOP) */
+        body { 
+            background-color: var(--bg-body); 
+            color: var(--text-main); 
+            font-family: var(--font-tech); 
+            overflow-x: hidden;
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr;
+        }
+
+        /* Scrollbar Premium */
+        body::-webkit-scrollbar { width: 8px; }
+        body::-webkit-scrollbar-track { background: #f1f1f1; }
+        body::-webkit-scrollbar-thumb { background: var(--navy-light); border-radius: 10px; border: 2px solid #f1f1f1; }
+
+        a { text-decoration: none; color: inherit; transition: 0.4s; }
+        img { width: 100%; display: block; object-fit: cover; }
+        
+        /* Seções */
+        section { padding: 100px 80px; border-bottom: 1px solid #e2e8f0; position: relative; }
+        .section-title { font-family: var(--font-serif); font-size: 3rem; margin-bottom: 50px; font-weight: 700; color: var(--navy-deep); line-height: 1.2; }
+        .text-gold { background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-style: italic; }
+
+        /* =========================================
+           SIDEBAR (Desktop)
+           ========================================= */
+        .sidebar {
+            background: var(--navy-deep);
+            height: 100vh; position: sticky; top: 0;
+            padding: 50px 30px; display: flex; flex-direction: column; justify-content: space-between;
+            border-right: 1px solid var(--border-glass); z-index: 100;
+            color: #fff;
+            box-shadow: 5px 0 30px rgba(0,0,0,0.1);
+        }
+        .brand { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; line-height: 1; border-left: 3px solid var(--primary); padding-left: 15px; letter-spacing: 1px; }
+        .brand span { font-family: var(--font-tech); font-size: 0.7rem; letter-spacing: 3px; display: block; margin-top: 5px; color: var(--primary); text-transform: uppercase; }
+        
+        .nav-menu { display: flex; flex-direction: column; gap: 10px; }
+        .nav-link { 
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 15px; border-radius: 8px; color: #94a3b8; transition: 0.3s;
+            font-size: 0.95rem;
+        }
+        .nav-link:hover, .nav-link.active { color: #fff; background: rgba(255,255,255,0.05); transform: translateX(5px); border-left: 2px solid var(--primary); }
+        .nav-icon { display: flex; align-items: center; gap: 15px; }
+        
+        .arrow-indicator { opacity: 0; transform: translateX(-10px); transition: 0.3s; color: var(--primary); }
+        .nav-link:hover .arrow-indicator, .nav-link.active .arrow-indicator { opacity: 1; transform: translateX(0); }
+        
+        .sidebar-footer { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+        .socials-side { display: flex; gap: 15px; margin-bottom: 15px; }
+        .socials-side a { width: 35px; height: 35px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ccc; transition:0.3s; }
+        .socials-side a:hover { background: var(--primary); color: var(--navy-deep); }
+
+        /* =========================================
+           HERO SECTION
+           ========================================= */
+        #hero {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: url('https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?q=80&w=2091&auto=format&fit=crop') center/cover no-repeat fixed;
+            padding: 0 50px;
+        }
+        #hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.7)); z-index: 1; }
+        
+        .hero-content { position: relative; z-index: 2; max-width: 800px; text-align: center; }
+        .hero-label { 
+            border: 1px solid var(--primary); color: var(--navy-deep); 
+            padding: 6px 20px; font-size: 0.75rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 3px; display: inline-block; margin-bottom: 25px; 
+            background: rgba(255,255,255,0.8);
+        }
+        .hero-title { font-family: var(--font-serif); font-size: 4.5rem; line-height: 1.1; margin-bottom: 30px; color: var(--navy-deep); }
+        .hero-title span { color: var(--primary); font-style: italic; }
+        
+        .btn-gold {
+            padding: 16px 45px; background: var(--navy-deep); color: #fff; 
+            text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.4s; 
+            position: relative; display: inline-block; border: none; font-size: 0.85rem; font-weight: 600;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3); border-radius: 4px;
+        }
+        .btn-gold:hover { background: var(--primary); color: #fff; transform: translateY(-3px); }
+        
+        .btn-outline {
+            padding: 14px 40px; background: transparent; color: var(--navy-deep); border: 2px solid var(--navy-deep);
+            text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.4s; display: inline-block; font-size: 0.85rem; font-weight: 600; border-radius: 4px;
+        }
+        .btn-outline:hover { background: var(--navy-deep); color: #fff; }
+
+        /* =========================================
+           SOBRE
+           ========================================= */
+        #about { background: var(--bg-body); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        
+        .about-img { position: relative; }
+        .about-img img { border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); width: 100%; height: 600px; }
+        .about-img::before {
+            content: ''; position: absolute; top: -20px; left: -20px; width: 100%; height: 100%;
+            border: 2px solid var(--primary); z-index: -1; transition: 0.5s;
+        }
+        
+        .about-text p { color: #64748b; line-height: 1.8; margin-bottom: 25px; font-size: 1.05rem; }
+        
+        .features-list { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 40px; }
+        .feature-item { display: flex; align-items: center; gap: 12px; color: var(--navy-deep); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .feature-item i { color: var(--primary); font-size: 1.4rem; }
+
+        /* =========================================
+           SERVIÇOS (MENU CLÍNICO)
+           ========================================= */
+        #services { background: var(--bg-panel); }
+        .menu-container { display: flex; flex-direction: column; gap: 20px; max-width: 900px; margin: 0 auto; }
+        
+        .menu-item {
+            display: flex; align-items: center; background: #fff; 
+            padding: 30px; border-radius: 12px; transition: 0.4s; position: relative; cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.03);
+        }
+        .menu-item:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.08); border-color: var(--primary); }
+        
+        .menu-icon { 
+            width: 80px; height: 80px; background: var(--bg-panel); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; margin-right: 30px; 
+            font-size: 2rem; color: var(--navy-deep); transition: 0.4s; flex-shrink: 0;
+        }
+        .menu-item:hover .menu-icon { background: var(--navy-deep); color: var(--primary); }
+        
+        .menu-info { flex: 1; }
+        .menu-title { font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 8px; color: var(--navy-deep); }
+        .menu-desc { color: #64748b; font-size: 0.95rem; }
+        
+        .menu-action { display: flex; align-items: center; gap: 25px; }
+        .menu-price { font-size: 1.2rem; font-weight: 700; color: var(--primary); white-space: nowrap; }
+        .arrow-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; color: var(--navy-deep); transition: 0.4s; }
+        .menu-item:hover .arrow-btn { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+        /* =========================================
+           EQUIPE & GALERIA
+           ========================================= */
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .team-card { position: relative; cursor: pointer; }
+        .team-img { height: 400px; width: 100%; object-fit: cover; border-radius: 8px; transition: 0.5s; filter: grayscale(100%); }
+        .team-card:hover .team-img { filter: grayscale(0%); transform: scale(1.02); }
+        
+        .team-info { margin-top: 20px; text-align: center; }
+        .team-info h4 { font-family: var(--font-serif); font-size: 1.5rem; color: var(--navy-deep); margin-bottom: 5px; }
+        .team-info p { color: var(--primary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .masonry-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 300px); gap: 15px; }
+        .m-item { position: relative; overflow: hidden; cursor: pointer; border-radius: 8px; display: block; }
+        .m-item img { height: 100%; width: 100%; object-fit: cover; transition: 0.7s; }
+        .m-item:hover img { transform: scale(1.1); }
+        .m-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+        .m-item:nth-child(2) { grid-column: span 1; }
+
+        /* Overlay do Instagram */
+        .overlay-gallery {
+            position: absolute; inset: 0;
+            background: rgba(15, 23, 42, 0.7);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: 0.4s;
+            backdrop-filter: blur(2px);
+        }
+        .m-item:hover .overlay-gallery { opacity: 1; }
+        .overlay-gallery i { color: var(--primary); font-size: 3rem; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); }
+
+        /* =========================================
+           FLUTUANTES
+           ========================================= */
+        .notification-stack { position: fixed; top: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 9998; pointer-events: none; }
+        
+        .notify-card { 
+            background: #fff; border-left: 4px solid var(--primary); 
+            padding: 15px 20px; border-radius: 4px; display: flex; align-items: center; gap: 15px; 
+            width: 320px; transform: translateX(120%); transition: 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1); pointer-events: auto; 
+        }
+        .notify-card.active { transform: translateX(0); }
+        .notify-img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #f1f1f1; }
+
+        .chat-btn-float { 
+            position: fixed; bottom: 40px; right: 40px; width: 65px; height: 65px; 
+            background: var(--navy-deep); border: 2px solid var(--primary); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 30px; color: var(--primary); cursor: pointer; z-index: 9999; 
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.4); transition: 0.3s; 
+        }
+        .chat-btn-float:hover { transform: scale(1.1); background: var(--primary); color: #fff; }
+        
+        .chat-window { 
+            position: fixed; bottom: 120px; right: 40px; width: 380px; height: 600px; 
+            background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; 
+            display: none; flex-direction: column; overflow: hidden; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15); z-index: 9999; 
+        }
+        .chat-window.open { display: flex; animation: slideUp 0.4s ease; }
+        
+        .chat-header { padding: 20px; background: var(--navy-deep); color: #fff; display: flex; justify-content: space-between; align-items: center; }
+        .chat-body { flex: 1; padding: 20px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 15px; }
+        .chat-footer { padding: 20px; background: #fff; border-top: 1px solid #e2e8f0; display: flex; flex-wrap: wrap; gap: 8px; }
+        
+        .msg { padding: 12px 18px; border-radius: 12px; font-size: 0.9rem; max-width: 85%; line-height: 1.5; }
+        .msg.bot { background: #fff; color: var(--text-main); border: 1px solid #e2e8f0; border-bottom-left-radius: 2px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .msg.user { background: var(--navy-deep); color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
+        
+        .quick-reply { 
+            background: #fff; border: 1px solid var(--primary); color: var(--navy-deep); 
+            padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; 
+            cursor: pointer; transition: 0.3s; flex-grow: 1; text-align: center; 
+        }
+        .quick-reply:hover { background: var(--primary); color: #fff; }
+
+        footer { padding: 80px; background: var(--navy-deep); color: #94a3b8; text-align: center; }
+        .mobile-dock { display: none; }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* =========================================
+           RESPONSIVIDADE (MOBILE & TABLET)
+           ========================================= */
+        @media (max-width: 1024px) {
+            body { display: block; width: 100%; }
+            .sidebar { display: none; }
+            
+            .mobile-dock { 
+                display: flex; position: fixed; bottom: 0; left: 0; width: 100%; 
+                background: var(--navy-deep); border-top: 1px solid rgba(255,255,255,0.1); 
+                z-index: 9990; justify-content: space-around; padding: 12px 10px 30px 10px; 
+            }
+            .dock-item { color: #94a3b8; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; gap: 5px; }
+            .dock-item i { font-size: 1.4rem; }
+            .dock-item.active { color: var(--primary); }
+            
+            /* Ajustes Gerais */
+            section { padding: 60px 20px; width: 100%; }
+            #hero { text-align: center; padding: 80px 20px 40px; }
+            .hero-title { font-size: 2.8rem; margin-bottom: 20px; }
+            .hero-label { margin-bottom: 15px; }
+            
+            /* Sobre */
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .about-img img { height: 350px; }
+            .about-img::before { display: none; }
+            .features-list { grid-template-columns: 1fr; gap: 15px; }
+            
+            /* Serviços */
+            .menu-item { flex-direction: column; text-align: center; gap: 15px; padding: 25px 15px; }
+            .menu-icon { margin-right: 0; width: 60px; height: 60px; font-size: 1.5rem; margin-bottom: 5px; }
+            .menu-action { flex-direction: column; width: 100%; gap: 15px; }
+            .menu-price { font-size: 1.1rem; }
+            .arrow-btn { display: none; } /* Remove botão seta no mobile para limpar */
+            
+            /* Equipe & Galeria */
+            .masonry-grid { display: flex; flex-direction: column; gap: 15px; }
+            .m-item { height: 250px; width: 100%; }
+            .team-img { height: 350px; }
+
+            /* Notificações e Chat */
+            .notification-stack { top: 10px; left: 0; right: 0; align-items: center; width: 100%; pointer-events: none; }
+            .notify-card { width: 92%; transform: translateY(-150%); box-shadow: 0 5px 15px rgba(0,0,0,0.2); } 
+            .notify-card.active { transform: translateY(0); }
+            
+            .chat-btn-float { bottom: 90px; right: 20px; width: 55px; height: 55px; font-size: 24px; }
+            /* Chat Responsivo para iPhone (375px) */
+            .chat-window { 
+                width: 100% !important; right: 0; bottom: 0; height: 100% !important; 
+                border-radius: 0; max-width: 100%;
+                top: 0; /* Fullscreen no mobile */
+                z-index: 10000;
+            }
+            .chat-header i.ph-x { padding: 10px; } /* Aumentar área de toque */
+        }
+
+        /* Ajuste Fino para telas muito pequenas (iPhone SE - 320px/375px) */
+        @media (max-width: 380px) {
+            .hero-title { font-size: 2.2rem; }
+            .menu-title { font-size: 1.3rem; }
+            .notify-card { width: 95%; padding: 10px 15px; }
+            .btn-gold, .btn-outline { padding: 12px 25px; font-size: 0.75rem; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="notification-stack" id="notificationStack"></div>
+
+    <!-- SIDEBAR (PC) -->
+    <aside class="sidebar">
+        <div class="brand">VITALITY<br><span>GOLD</span></div>
+        <nav class="nav-menu">
+            <a href="#hero" class="nav-link"><div class="nav-icon"><i class="ph ph-house-line"></i> Início</div><i class="ph ph-caret-right arrow-indicator"></i></a>
+            <a href="#about" class="nav-link"><div class="nav-icon"><i class="ph ph-user-md"></i> O Especialista</div><i class="ph ph-caret-right arrow-indicator"></i></a>
+            <a href="#services" class="nav-link"><div class="nav-icon"><i class="ph ph-sparkle"></i> Tratamentos</div><i class="ph ph-caret-right arrow-indicator"></i></a>
+            <a href="#team" class="nav-link"><div class="nav-icon"><i class="ph ph-users-three"></i> Corpo Clínico</div><i class="ph ph-caret-right arrow-indicator"></i></a>
+            <a href="#gallery" class="nav-link"><div class="nav-icon"><i class="ph ph-image-square"></i> Estrutura</div><i class="ph ph-caret-right arrow-indicator"></i></a>
+            <a href="#contact" class="nav-link"><div class="nav-icon"><i class="ph ph-map-pin-line"></i> Contato</div><i class="ph ph-caret-right arrow-indicator"></i></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="socials-side">
+                <a href="#"><i class="ph ph-instagram-logo"></i></a>
+                <a href="#"><i class="ph ph-linkedin-logo"></i></a>
+                <a href="#"><i class="ph ph-whatsapp-logo"></i></a>
+            </div>
+            <p style="font-size: 0.75rem; color: #64748b;">&copy; 2025 Vitality.</p>
+        </div>
+    </aside>
+
+    <main>
+        <!-- HERO -->
+        <section id="hero">
+            <div class="hero-content">
+                <span class="hero-label">Concierge Medicine</span>
+                <h1 class="hero-title">Sua Saúde em <br><span class="text-gold">Primeiro Plano.</span></h1>
+                <p style="margin-bottom: 40px; font-size: 1.1rem; color: #475569; line-height: 1.6;">Uma abordagem integrativa que une tecnologia de ponta, conforto hoteleiro e um corpo clínico de excelência.</p>
+                <div style="display:flex; gap:15px; flex-wrap:wrap; justify-content:center;">
+                    <a href="https://wa.me/5500000000000" class="btn-gold">Agendar Avaliação</a>
+                    <button class="btn-outline" onclick="document.getElementById('chatWindow').classList.add('open')">Concierge Virtual</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOBRE -->
+        <section id="about">
+            <div class="about-grid">
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=2070&auto=format&fit=crop" alt="Dr. André">
+                </div>
+                <div class="about-text">
+                    <h2 class="section-title">Medicina <span class="text-gold">Personalizada</span></h2>
+                    <p>Liderada pelo Dr. André Siqueira, a Vitality Gold nasceu para preencher a lacuna entre a medicina tradicional e a experiência do paciente.</p>
+                    <p>Aqui, o tempo é o nosso maior ativo. Consultas de longa duração, investigação profunda e um plano de cuidado desenhado exclusivamente para o seu estilo de vida.</p>
+                    
+                    <div class="features-list">
+                        <div class="feature-item"><i class="ph-fill ph-seal-check"></i> Tecnologia 3D</div>
+                        <div class="feature-item"><i class="ph-fill ph-seal-check"></i> Salas VIP</div>
+                        <div class="feature-item"><i class="ph-fill ph-seal-check"></i> Atendimento 24h</div>
+                        <div class="feature-item"><i class="ph-fill ph-seal-check"></i> Valet Parking</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVIÇOS -->
+        <section id="services">
+            <h2 class="section-title" style="text-align: center;">Protocolos <span class="text-gold">Exclusivos</span></h2>
+            <div class="menu-container">
+                
+                <div class="menu-item" onclick="toggleDetails(this)">
+                    <div class="menu-icon"><i class="ph ph-heartbeat"></i></div>
+                    <div class="menu-info">
+                        <h3 class="menu-title">Check-up Executivo</h3>
+                        <p class="menu-desc">Avaliação completa cardiológica, metabólica e nutricional em 4 horas.</p>
+                    </div>
+                    <div class="menu-action">
+                        <span class="menu-price">R$ 1.500</span>
+                        <div class="arrow-btn"><i class="ph ph-arrow-right"></i></div>
+                    </div>
+                </div>
+
+                <div class="menu-item" style="border-color: var(--primary);">
+                    <div class="menu-icon" style="background: var(--navy-deep); color: var(--primary);"><i class="ph ph-sparkle"></i></div>
+                    <div class="menu-info">
+                        <h3 class="menu-title" style="color: var(--primary);">Harmonização Gold</h3>
+                        <p class="menu-desc">Protocolo full face com bioestimuladores e preenchimento premium.</p>
+                    </div>
+                    <div class="menu-action">
+                        <span class="menu-price">Sob Consulta</span>
+                        <div class="arrow-btn" style="background: var(--primary); border-color: var(--primary); color: #fff;"><i class="ph ph-crown"></i></div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-icon"><i class="ph ph-tooth"></i></div>
+                    <div class="menu-info">
+                        <h3 class="menu-title">Lentes de Contato</h3>
+                        <p class="menu-desc">Transformação do sorriso com porcelanas ultra-finas importadas.</p>
+                    </div>
+                    <div class="menu-action">
+                        <span class="menu-price">R$ 2.800/dente</span>
+                        <div class="arrow-btn"><i class="ph ph-arrow-right"></i></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- EQUIPE -->
+        <section id="team" style="background: #fff;">
+            <h2 class="section-title" style="text-align: center;">Corpo <span class="text-gold">Clínico</span></h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=500" class="team-img">
+                    <div class="team-info"><h4>Dra. Julia Costa</h4><p>Implantodontia</p></div>
+                </div>
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500" class="team-img">
+                    <div class="team-info"><h4>Dr. Lucas Mendes</h4><p>Ortodontia Digital</p></div>
+                </div>
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=500" class="team-img">
+                    <div class="team-info"><h4>Dra. Ana Beatriz</h4><p>Harmonização Orofacial</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALERIA -->
+        <section id="gallery" style="background: var(--bg-panel);">
+            <h2 class="section-title" style="text-align: center;">Nosso <span class="text-gold">Espaço</span></h2>
+            <div class="masonry-grid">
+                <a href="#" class="m-item">
+                    <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800" alt="Recepção">
+                    <div class="overlay-gallery"><i class="ph ph-instagram-logo"></i></div>
+                </a>
+                <a href="#" class="m-item">
+                    <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=500" alt="Consultório">
+                    <div class="overlay-gallery"><i class="ph ph-instagram-logo"></i></div>
+                </a>
+                <a href="#" class="m-item">
+                    <img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=500" alt="Detalhe">
+                    <div class="overlay-gallery"><i class="ph ph-instagram-logo"></i></div>
+                </a>
+                <a href="#" class="m-item">
+                    <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=500" alt="Sala de Espera">
+                    <div class="overlay-gallery"><i class="ph ph-instagram-logo"></i></div>
+                </a>
+                <a href="#" class="m-item">
+                    <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?w=500" alt="Equipamento">
+                    <div class="overlay-gallery"><i class="ph ph-instagram-logo"></i></div>
+                </a>
+            </div>
+        </section>
+
+        <footer id="contact">
+            <div style="font-family: var(--font-serif); font-size: 2rem; color: #fff; margin-bottom: 20px;">VITALITY</div>
+            <p>Av. Europa, 880 - Jardins, São Paulo | (11) 99999-9999</p>
+            <p style="opacity:0.5; margin-top:20px; font-size: 0.8rem;">&copy; 2025 Vitality Gold. Todos os direitos reservados.</p>
+        </footer>
+    </main>
+
+    <!-- MOBILE DOCK -->
+    <div class="mobile-dock">
+        <a href="#hero" class="dock-item"><i class="ph ph-house-line"></i><span>Início</span></a>
+        <a href="#services" class="dock-item"><i class="ph ph-sparkle"></i><span>Menu</span></a>
+        <a href="https://wa.me/5500000000000" class="dock-item"><i class="ph-fill ph-whatsapp-logo" style="color:var(--primary); font-size:2.2rem; margin-top:-20px; filter: drop-shadow(0 5px 10px rgba(197, 160, 89, 0.4));"></i></a>
+        <a href="#gallery" class="dock-item"><i class="ph ph-image-square"></i><span>Fotos</span></a>
+        <a href="#team" class="dock-item"><i class="ph ph-user-md"></i><span>Equipe</span></a>
+    </div>
+
+    <!-- CHATBOT -->
+    <div class="chat-btn-float" onclick="document.getElementById('chatWindow').classList.add('open')">
+        <div style="position:absolute; top:0; right:0; width:14px; height:14px; background:#10b981; border-radius:50%; border:2px solid #fff;"></div>
+        <i class="ph ph-chat-circle-dots"></i>
+    </div>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span style="font-weight:600; display:flex; align-items:center; gap:10px;"><i class="ph-fill ph-robot"></i> Concierge Vitality</span>
+            <i class="ph ph-x" onclick="document.getElementById('chatWindow').classList.remove('open')" style="cursor:pointer;"></i>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="msg bot">Olá! Sou a assistente virtual da Vitality Gold. Como posso auxiliar sua jornada de saúde hoje?</div>
+        </div>
+        <div class="chat-footer" id="chatOptions"></div>
+    </div>
+
+    <script>
+        // 1. SCROLL SPY
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const dockItems = document.querySelectorAll('.dock-item');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(sec => {
+                if (pageYOffset >= (sec.offsetTop - sec.clientHeight / 3)) current = sec.getAttribute('id');
+            });
+            
+            // Desktop Sidebar
+            navLinks.forEach(li => {
+                li.classList.remove('active');
+                if (li.getAttribute('href').includes(current)) li.classList.add('active');
+            });
+
+            // Mobile Dock
+            dockItems.forEach(li => {
+                li.classList.remove('active');
+                if (li.getAttribute('href').includes(current)) li.classList.add('active');
+            });
+        });
+
+        // 2. NOTIFICAÇÕES (Contexto Saúde)
+        const acts = [
+            {t:"Agendou Check-up", i:"https://randomuser.me/api/portraits/women/44.jpg"}, 
+            {t:"Iniciou Harmonização", i:"https://randomuser.me/api/portraits/women/65.jpg"},
+            {t:"Realizou Implante", i:"https://randomuser.me/api/portraits/men/32.jpg"}, 
+            {t:"Agendou Telemedicina", i:"https://randomuser.me/api/portraits/men/85.jpg"},
+            {t:"Renovou Protocolo", i:"https://randomuser.me/api/portraits/women/22.jpg"}, 
+            {t:"Avaliou 5 Estrelas", i:"https://randomuser.me/api/portraits/men/11.jpg"}
+        ];
+        const names = ['Fernanda', 'Carlos', 'Beatriz', 'Roberto', 'Juliana', 'Ricardo'];
+
+        function notify() {
+            // Verifica se a tela é muito pequena (evita cobrir conteúdo no iPhone SE)
+            if(window.innerWidth < 380 && document.querySelectorAll('.notify-card').length > 0) return;
+
+            const a = acts[Math.floor(Math.random()*acts.length)];
+            const n = names[Math.floor(Math.random()*names.length)];
+            const card = document.createElement('div');
+            card.className = 'notify-card';
+            card.innerHTML = `<img src="${a.i}" class="notify-img"><div><h6 style="font-size:0.85rem; color:var(--navy-deep); margin-bottom:2px;">${n} ${a.t}</h6><p style="font-size:0.65rem; color:var(--primary); font-weight:700;">CONFIRMADO AGORA</p></div>`;
+            document.getElementById('notificationStack').appendChild(card);
+            setTimeout(()=>card.classList.add('active'),100);
+            setTimeout(()=>{card.classList.remove('active'); setTimeout(()=>card.remove(),500)}, 5000);
+        }
+        setInterval(notify, 8000);
+
+        // 3. CHATBOT (Opções Médicas)
+        const opts = [
+            {l:"📅 Agendar Consulta", r:"Redirecionando para a agenda VIP..."}, 
+            {l:"📍 Localização", r:"Estamos na Av. Europa, 880 - Jardins."},
+            {l:"💰 Valores", r:"Nossas consultas iniciam em R$ 450."}, 
+            {l:"💎 Clube Gold", r:"O Vitality Club oferece descontos exclusivos."},
+            {l:"💉 Procedimentos", r:"Realizamos Harmonização, Implantes e Check-ups."}, 
+            {l:"📞 Falar com Humano", r:"Chamando nossa recepção..."}
+        ];
+        const cOpts = document.getElementById('chatOptions');
+        const cBody = document.getElementById('chatBody');
+
+        opts.forEach(o => {
+            const b = document.createElement('button');
+            b.className='quick-reply';
+            b.innerText=o.l;
+            b.onclick = () => {
+                cBody.innerHTML += `<div class="msg user">${o.l}</div>`;
+                cOpts.style.display = 'none';
+                setTimeout(() => {
+                    cBody.innerHTML += `<div class="msg bot">${o.r}</div>`;
+                    cBody.scrollTop = cBody.scrollHeight;
+                    cOpts.style.display = 'flex';
+                    if(o.l.includes("Agendar") || o.l.includes("Falar")) setTimeout(()=>window.open('https://wa.me/5500000000000'), 1500);
+                }, 800);
+            };
+            cOpts.appendChild(b);
+        });
+    </script>
+</body>
+</html>
